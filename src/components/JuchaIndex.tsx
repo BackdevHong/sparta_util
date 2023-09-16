@@ -10,6 +10,11 @@ const JuchaIndex : FC<Props> = ({idx}) => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
+    if (value < 0) {
+      alert("0 이하로는 설정할 수 없습니다.")
+      e.target.value = "0"
+      setDetailC(0)
+    }
     setDetailC(value)
   }
 

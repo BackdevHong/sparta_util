@@ -6,6 +6,11 @@ const Form = () => {
 
   const handleChange = (e : ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
+    if (value < 0) {
+      alert("0 이하로는 선택할 수 없습니다.")
+      e.target.value = "0";
+      setEditJucha(0)
+    }
     setEditJucha(value)
   }
 
