@@ -80,7 +80,7 @@ const DetailTime : FC<Props> = ({idx}) => {
               <div className='ml-1'>초 </div>
             </label>
             <div className='ml-2'>{handleCaluclate(hour, minute, second) > 0 ? (
-              handleCaluclate(hour, minute, second)
+              <div className='flex'>{handleCaluclate(hour, minute, second)} <p>초</p></div>
             ) : (
               null
             )}</div>

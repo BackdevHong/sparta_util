@@ -29,7 +29,7 @@ const JuchaIndex : FC<Props> = ({idx}) => {
       {
         detailC <= 0 ? (
           <div>
-            편집한 주차를 적어주십쇼.
+            편집한 주차를 적어주세요.
           </div>
         ) : (
           <div>
