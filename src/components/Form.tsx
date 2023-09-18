@@ -20,7 +20,7 @@ const Form = () => {
   return (
     <div className='w-[30rem] h-full mt-20 border mx-auto md:container sm:container container'>
       <form onSubmit={(e: FormEvent<HTMLFormElement>) => e.preventDefault()}>
-          <label htmlFor="text" className='flex flex-row items-center justify-center p-5'>
+          <label htmlFor="text" className='flex flex-row items-center justify-center p-5 mx-auto sm:container'>
             <div className='mr-3'>편집한 강의 주차 수 ( 1주차 : 1, 2주차 이상 : 2개 이상) : </div>
             <input type="number" className='border text-center' defaultValue={editJucha} onChange={handleChange}/>
           </label>

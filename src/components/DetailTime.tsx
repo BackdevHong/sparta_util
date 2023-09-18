@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, FormEvent, useState } from 'react'
+import React, { ChangeEvent, FC, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { add, calculateValue } from '../store/timeArray';
 import { RootState } from '../store';
@@ -87,8 +87,8 @@ const DetailTime : FC<Props> = ({idx, chap}) => {
   }
 
   return (
-    <div className='w-[30rem] h-full mt-2 mx-auto md:container sm:container container'>
-      <div className='flex flex-row items-center justify-center p-2'>
+    <div className='w-[30rem] h-full mt-2 mx-auto px-9 md:container sm:container container'>
+      <div className='flex flex-row items-center justify-center p-2 mx-auto px-4 sm:container'>
         <div className='mr-3'> [ {idx} ] 번째 영상 원본 시간 : </div>
         <div className='flex flex-row items-center justify-center'>
           <input type="number" className='w-10 border text-center' defaultValue={hour} onChange={(e) => handleChange(e, "hour")}/>
