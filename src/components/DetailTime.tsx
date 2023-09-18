@@ -1,16 +1,22 @@
-import React, { ChangeEvent, FC, useState } from 'react'
+import React, { ChangeEvent, FC, FormEvent, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { add, calculateValue } from '../store/timeArray';
+import { RootState } from '../store';
 
 interface Props {
   idx: number;
+  chap: number;
 }
 
-const DetailTime : FC<Props> = ({idx}) => {
+const DetailTime : FC<Props> = ({idx, chap}) => {
 
   const [hour, setHour] = useState(0)
   const [minute, setMinute] = useState(0)
   const [second, setSecond] = useState(0)
+  const dispatch = useDispatch();
+  const {value} = useSelector((state: RootState) => state.timeArray)
 
-  const handleChange = (e : ChangeEvent<HTMLInputElement>, type : string) => {
+  const handleChange = async (e : ChangeEvent<HTMLInputElement>, type : string) => {
     switch (type) {
       case "hour":
         if (Number(e.target.value) < 0) {
@@ -20,6 +26,14 @@ const DetailTime : FC<Props> = ({idx}) => {
           break;
         }
         setHour(Number(e.target.value))
+        dispatch(add({
+          step: {
+            chap: chap,
+            jucha: idx,
+            time: Math.floor(handleCaluclate(Number(e.target.value), minute, second) / 60)
+          }
+        }))
+        dispatch(calculateValue(value))
         break;
       case "minute":
         if (Number(e.target.value) < 0) {
@@ -35,6 +49,14 @@ const DetailTime : FC<Props> = ({idx}) => {
           break;
         }
         setMinute(Number(e.target.value))
+        dispatch(add({
+          step: {
+            chap: chap,
+            jucha: idx,
+            time: Math.floor(handleCaluclate(hour, Number(e.target.value), second) / 60)
+          }
+        }))
+        dispatch(calculateValue(value))
         break;
       case "second":
         if (Number(e.target.value) < 0) {
@@ -54,8 +76,6 @@ const DetailTime : FC<Props> = ({idx}) => {
       default:
         break;
     }
-
-    console.log(hour, minute, second)
   }
 
   const handleCaluclate = (h : number, m : number, s : number) => {
@@ -68,24 +88,24 @@ const DetailTime : FC<Props> = ({idx}) => {
 
   return (
     <div className='w-[30rem] h-full mt-2 mx-auto md:container sm:container container'>
-      <form>
-          <label htmlFor="label" className='flex flex-row items-center justify-center p-2'>
-            <div className='mr-3'> [ {idx} ] 번째 영상 원본 시간 : </div>
-            <label htmlFor="number" className='flex flex-row items-center justify-center'>
-              <input type="number" className='w-10 border text-center' defaultValue={hour} onChange={(e) => handleChange(e, "hour")}/>
-              <div className='ml-1'>시간 </div>
-              <input type="number" className='w-10 border ml-2 text-center' defaultValue={minute} onChange={(e) => handleChange(e, "minute")}/>
-              <div className='ml-1'>분 </div>
-              <input type="number" className='w-10 border ml-2 text-center' defaultValue={second} onChange={(e) => handleChange(e, "second")}/>
-              <div className='ml-1'>초 </div>
-            </label>
-            <div className='ml-2'>{handleCaluclate(hour, minute, second) > 0 ? (
-              <div className='flex'>{handleCaluclate(hour, minute, second)} <p>초</p></div>
-            ) : (
-              null
-            )}</div>
-          </label>
-      </form>
+      <div className='flex flex-row items-center justify-center p-2'>
+        <div className='mr-3'> [ {idx} ] 번째 영상 원본 시간 : </div>
+        <div className='flex flex-row items-center justify-center'>
+          <input type="number" className='w-10 border text-center' defaultValue={hour} onChange={(e) => handleChange(e, "hour")}/>
+          <div className='ml-1'>시간 </div>
+          <input type="number" className='w-10 border ml-2 text-center' defaultValue={minute} onChange={(e) => handleChange(e, "minute")}/>
+          <div className='ml-1'>분 </div>
+          <input type="number" className='w-10 border ml-2 text-center' defaultValue={second} onChange={(e) => handleChange(e, "second")}/>
+          <div className='ml-1'>초 </div>
+        </div>
+          <div className='ml-2'>{handleCaluclate(hour, minute, second) > 0 ? (
+            <>
+              <div className='flex'>{Math.floor(handleCaluclate(hour, minute, second) / 60)} <p>분</p></div>
+            </>
+          ) : (
+            null
+          )}</div>
+        </div>
     </div>
   )
 }
