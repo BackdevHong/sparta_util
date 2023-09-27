@@ -73,7 +73,6 @@ const timeArray = createSlice({
           state.allTime += value.time;
         });
       });
-      console.log(state.allTime);
     },
   },
 });
